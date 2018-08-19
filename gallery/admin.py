@@ -8,9 +8,14 @@ from gallery.models import Media
 
 from gallery.models import User
 from .models import Clip
+
 from .models import Category
+from .models import Clip_Media
 
 admin.site.register(Clip)
 admin.site.register(Media)
 admin.site.register(User)
+
 admin.site.register(Category)
+
+admin.site.register(Clip_Media)
