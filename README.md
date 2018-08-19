@@ -1,3 +1,5 @@
+## Prerequisites
+* Install python2.7, install pip, install git
 ## How to run 
 * Clone this repo on your local device using *git clone https://github.com/JDTorresP/AgileDjango.git*
 
