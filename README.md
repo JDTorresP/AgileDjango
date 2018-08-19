@@ -10,6 +10,8 @@ Follow the next command line expressions for the initial configuration on linux 
 * source bin/activate
 * pip install django
 * pip install psycopg2
+* pip install whitenoise
+* pip install gunicorn
 * cd ..
 * python manage.py runserver
 
