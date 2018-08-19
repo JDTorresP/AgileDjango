@@ -27,7 +27,7 @@ SECRET_KEY = '5v-c^r%fpfx4xgr!===#s^0sr4qmcyf=w!2(b-mofd%6fsph5)'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'djangosms.herokuapp.com','127.0.0.1'
+    'djangosms.herokuapp.com','127.0.0.1', 'radiant-badlands-50472.herokuapp.com',
 ]
 
 
