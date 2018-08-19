@@ -15,6 +15,7 @@ Follow the next command line expressions for the initial configuration on linux 
 * pip install psycopg2
 * pip install whitenoise
 * pip install gunicorn
+* cd ../..
 * python manage.py runserver
 
 Now the server is runing at 
