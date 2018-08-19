@@ -22,6 +22,11 @@ class User(models.Model):
     city = models.CharField(max_length=255)
 
 
+class Category(models.Model):
+    idCategory = models.FloatField(primary_key=True)
+    name = models.CharField(max_length=255)
+
+
 class Media(models.Model):
     idMedia = models.FloatField(primary_key=True)
     mediaType = models.CharField(max_length=255)
@@ -34,3 +39,5 @@ class Media(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.CharField(max_length=500)
     clips = models.ManyToManyField(Clip)
+    category = models.ForeignKey(Category, null=True)
+
