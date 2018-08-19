@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,16 +77,18 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+DATABASES = {'default': dj_database_url.config()}
+
 DATABASES = {
     #Local
-     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'gallery',
-        'USER':'root',
-        'PASSWORD':'root',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
-    }
+    #  'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME':'gallery',
+    #     'USER':'root',
+    #     'PASSWORD':'root',
+    #     'HOST':'127.0.0.1',
+    #     'PORT':'3306',
+    # }
 
     #Amazon
 
@@ -97,6 +100,17 @@ DATABASES = {
     #     'HOST': 'ec2-54-83-13-119.compute-1.amazonaws.com',
     #     'PORT': '5432'
     # }
+
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'agile',
+    #     'USER': 'dbuser',
+    #     'PASSWORD': 'casa123',
+    #     'HOST': '',
+    #     'PORT': '',
+    # }
+
 }
 
 
