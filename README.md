@@ -5,6 +5,7 @@
 
 Follow the next command line expressions for the initial configuration on linux systems, commands may vary depending on your operating system
 
+* cd AgileDjango
 * pip install virtualenv
 * cd gallery
 * virtualenv -p /usr/bin/python2.7 env
@@ -14,7 +15,7 @@ Follow the next command line expressions for the initial configuration on linux 
 * pip install psycopg2
 * pip install whitenoise
 * pip install gunicorn
-* cd ..
+* cd ../..
 * python manage.py runserver
 
 Now the server is runing at 
