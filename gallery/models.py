@@ -21,6 +21,8 @@ class User(models.Model):
     country = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
 
+    def __unicode__(self):
+        return self.name
 
 class Clip_Media(models.Model):
     media = models.ForeignKey('Media')
