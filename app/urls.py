@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^videos/', include('gallery.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/gallery/', include('gallery.urls', namespace='gallery'))
 ]
