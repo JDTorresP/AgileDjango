@@ -1,3 +1,5 @@
+Welcome to the Team 1 "Agile Development Processes"
+
 ## Prerequisites
 * Install python2.7, install pip, install git
 ## How to run 
@@ -8,7 +10,10 @@ Follow the next command line expressions for the initial configuration on linux 
 * cd AgileDjango
 * pip install virtualenv
 * cd gallery
+On linux/unix
 * virtualenv -p /usr/bin/python2.7 env
+On Windows
+virtualenv -p C:\Python27\python.exe env
 * cd env
 * source bin/activate
 * pip install django
