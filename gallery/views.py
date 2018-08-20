@@ -4,7 +4,13 @@ from gallery.models import Media
 from gallery.models import User
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers as jsonserializer
+from django.shortcuts import render
 
+
+def index(request):
+    video_list = Media.objects.all()
+    context = {'video_list': video_list}
+    return render(request, 'videos/index.html', context)
 
 def all_media(request):
     all_media_objects = Media.objects.all()
