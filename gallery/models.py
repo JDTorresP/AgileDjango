@@ -10,8 +10,9 @@ class Clip(models.Model):
     seg_initial = models.BigIntegerField()
     seg_final = models.BigIntegerField()
 
+
 class User(models.Model):
-    idUser = models.FloatField(primary_key=True)
+    idUser = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
     email = models.CharField(max_length=500)
@@ -20,18 +21,23 @@ class User(models.Model):
     country = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
 
+
 class Clip_Media(models.Model):
     media = models.ForeignKey('Media')
     clip = models.ForeignKey('Clip')
     user = models.ForeignKey('User')
 
+
 class Category(models.Model):
-    idCategory = models.FloatField(primary_key=True)
+    idCategory = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Media(models.Model):
-    idMedia = models.FloatField(primary_key=True)
+    idMedia = models.AutoField(primary_key=True)
     mediaType = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
@@ -43,3 +49,6 @@ class Media(models.Model):
     url = models.CharField(max_length=500)
     clips = models.ManyToManyField(Clip, through=Clip_Media)
     category = models.ForeignKey(Category, null=True)
+
+    def __unicode__(self):
+        return self.title
