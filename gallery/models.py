@@ -25,6 +25,7 @@ class User(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Clip_Media(models.Model):
     media = models.ForeignKey('Media')
     clip = models.ForeignKey('Clip')
