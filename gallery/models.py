@@ -20,6 +20,7 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    photoUrl = models.CharField(max_length=500)
 
     def __unicode__(self):
         return self.name
