@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'corsheaders',
     'gallery'
 ]
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -81,27 +83,27 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
-# DATABASES = {
-#     #Local
-#     #  'default': {
-#     #     'ENGINE': 'django.db.backends.mysql',
-#     #     'NAME':'gallery',
-#     #     'USER':'root',
-#     #     'PASSWORD':'root',
-#     #     'HOST':'127.0.0.1',
-#     #     'PORT':'3306',
-#     # }
+DATABASES = {
+    #Local
+    #  'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME':'postgres',
+    #     'USER':'postgres',
+    #     'PASSWORD':'admin',
+    #     'HOST':'127.0.0.1',
+    #     'PORT':'5432',
+    # }
 #
 #     #Amazon
-#
-#     # 'default': {
-#     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#     #    'NAME': 'd4eg5rsuf9ehh3',
-#     #    'USER': 'qwkzxcnsoaqkgy',
-#     #     'PASSWORD': '7863dc3566996195d0830dda52bc3e05522287701cdacdf02d3e3151a1029a7c',
-#     #     'HOST': 'ec2-54-83-13-119.compute-1.amazonaws.com',
-#     #     'PORT': '5432'
-#     # }
+
+    # 'default': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': 'd4eg5rsuf9ehh3',
+    #    'USER': 'qwkzxcnsoaqkgy',
+    #     'PASSWORD': '7863dc3566996195d0830dda52bc3e05522287701cdacdf02d3e3151a1029a7c',
+    #     'HOST': 'ec2-54-83-13-119.compute-1.amazonaws.com',
+    #     'PORT': '5432'
+    # }
 #
 #
 #     # 'default': {
@@ -113,7 +115,7 @@ DATABASES = {'default': dj_database_url.config()}
 #     #     'PORT': '',
 #     # }
 #
-# }
+}
 
 
 # Password validation
@@ -159,5 +161,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+CORS_ORIGIN_ALLOW_ALL = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'gallery/media/')
