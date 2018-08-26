@@ -1,0 +1,68 @@
+{#Load bootstrap django resources#}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles</title>
+</head>
+<body>
+
+<div class="container">
+{{ video.url|safe }}
+        <h2 >Detalles</h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Titulo</td>
+                    <td>{{video.title}}</td>
+                </tr>
+                <tr>
+                    <td>Descripcion</td>
+                    <td>{{video.description}}</td>
+                </tr>
+                <tr>
+                    <td>Tipo</td>
+                    <td>{{video.mediaType}} </td>
+                </tr>
+                <tr>
+                    <td>Propietario</td>
+                    <td>{{video.user}}</td>
+                </tr>
+                <tr>
+                    <td>Categoria</td>
+                    <td>{{video.category}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    <h2 >Clips</h2>
+        <table class="table">
+            <tbody>
+            {%for clip in video.clips.all %}
+                <tr>
+                    <td>Titulo: {{clip.name}}</td>
+                    <td>Inicio: {{clip.seg_initial}}</td>
+                    <td>Fin: {{clip.seg_final}} </td>
+                    <td><span class="glyphicon glyphicon-play" aria-hidden="true"></span></td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    <h2 >Agregar clips</h2>
+    <form action="{{ video.get_absolute_url }}" enctype="multipart/form-data" method="post">
+        {%csrf_token%}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <input type="submit" value="añadir" class="btn btn-primary btn-block"/>
+        {% endbuttons %}
+    </form>
+</div>
+
+</body>
+</html>

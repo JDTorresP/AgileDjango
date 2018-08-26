@@ -8,6 +8,7 @@
 <h1 align="center">Galeria de Videos</h1>
 {%for video in video_list %}
 {{ video.url|safe }}
+    <a href="{{ video.get_absolute_url }}" >Detalles</a>
 {% endfor %}
 </body>
 </html>

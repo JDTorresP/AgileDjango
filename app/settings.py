@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'gallery'
 ]
 
@@ -92,7 +93,7 @@ DATABASES = {'default': dj_database_url.config()}
 #     # }
 #
 #     #Amazon
-# 
+#
 #     # 'default': {
 #     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #     #    'NAME': 'd4eg5rsuf9ehh3',

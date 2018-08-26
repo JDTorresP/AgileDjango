@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.forms import ModelForm
+from django.urls import reverse
 
 
 class Clip(models.Model):
@@ -9,6 +11,12 @@ class Clip(models.Model):
     name = models.CharField(max_length=200)
     seg_initial = models.BigIntegerField()
     seg_final = models.BigIntegerField()
+
+
+class ClipForm(ModelForm):
+    class Meta:
+        model = Clip
+        fields = {'name', 'seg_initial', 'seg_final'}
 
 
 class User(models.Model):
@@ -56,3 +64,7 @@ class Media(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('details', args=[str(self.idMedia)])
