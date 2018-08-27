@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from gallery.models import Media, ClipForm
-from gallery.models import User
-from django.http import HttpResponse, JsonResponse
-from django.core import serializers as jsonserializer
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Media, ClipForm, UserForm
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+
 from django.contrib import auth
 from django.template.context_processors import csrf
+
+from django.core import serializers as jsonserializer
 
 
 def index(request):
@@ -17,10 +21,10 @@ def index(request):
     return render(request, 'videos/index.html', context)
 
 
-def login(request):
-    c = {}
-    c.update(csrf(request))
-    return render(request, 'auth/login.html', c)
+# def login(request):
+#     c = {}
+#     c.update(csrf(request))
+#     return render(request, 'auth/login.html', c)
 
 
 def auth_view(request):
@@ -35,19 +39,19 @@ def auth_view(request):
         return HttpResponseRedirect('/invalid')
 
 
-def loggedin(request):
-    return render_to_response('/auth/loggedin.html', {'full_name': request.user.login})
+# def loggedin(request):
+#     return render_to_response('/auth/loggedin.html', {'full_name': request.user.login})
 
 
-def invalid_login(request):
-    return render(request, '/auth/invalid.html')
-
-
-def logout(request):
-    auth.logout()
-
-    return render_to_response('/auth/logout.html', )
-
+# def invalid_login(request):
+#     return render(request, '/auth/invalid.html')
+#
+#
+# def logout(request):
+#     auth.logout()
+#
+#     return render_to_response('/auth/logout.html', )
+#
 
 def detail(request, videoid):
     # if request.method == 'POST':
@@ -72,3 +76,56 @@ def all_users(request):
     all_users_objects = User.objects.all()
 
     return HttpResponse(jsonserializer.serialize("json", all_users_objects))
+
+
+def add_user_view(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            username = cleaned_data.get('username')
+            first_name = cleaned_data.get('first_name')
+            last_name = cleaned_data.get('last_name')
+            password = cleaned_data.get('password')
+            email = cleaned_data.get('email')
+
+            user_model = User.objects.create_user(username=username, password=password)
+            user_model.first_name = first_name
+            user_model.last_name = last_name
+            user_model.email = email
+            user_model.save()
+
+            return HttpResponseRedirect(reverse('gallery:index'))
+
+    else:
+        form = UserForm()
+
+    context ={
+        'form': form
+    }
+
+    return render(request, 'auth/registro.html', context)
+
+
+def login_view(request):
+
+    if request.user.is_authenticated():
+        return redirect(reverse('gallery:index'))
+
+    mensaje = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('gallery:index'))
+        else:
+            mensaje = "Nombre de usuario o clave no valido"
+
+    return render(request, 'auth/login.html', {'mensaje': mensaje})
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('gallery:index'))
