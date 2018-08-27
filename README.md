@@ -25,3 +25,15 @@ virtualenv -p C:\Python27\python.exe env
 
 Now the server is runing at 
 http://127.0.0.1:8000/admin
+
+
+No subir archivos de migraciones, solo se subiran los modelos y cada persona realizará la migración, al final una persona realizará la ejecución de las migraciones en la base de datos de producción. Seguir los siguientes pasos.
+
+Después de descargar cambios
+
+1. Descargar los cambios
+2. Borrar la BD por el manejador de base de datos
+3. Crear el esquema otra vez a través del manejador de base de datos
+4. python manage.py makemigrations (en la terminal de pycharm)
+5. python manage.py migrate
+6. Crear el super usuario python manage.py createsuperuser
