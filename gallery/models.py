@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.forms import ModelForm
 from django.urls import reverse
+from django.utils.datetime_safe import datetime
 
 
 class Clip(models.Model):
@@ -54,7 +55,7 @@ class Media(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     author = models.CharField(max_length=255)
-    created = models.BigIntegerField()
+    created = models.DateField(default=datetime.now)
     country = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
