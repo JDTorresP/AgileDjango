@@ -27,11 +27,8 @@ urlpatterns = [
     url(r'^videos/', include('gallery.urls'),name='videos_url'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/v1/gallery/', include('gallery.urls', namespace='gallery')),
-<<<<<<< HEAD
     url(r'^invalid/$',views.invalid_login,name='invalid'),
-=======
-    url(r'^$', include('gallery.urls', namespace='gallery'))
->>>>>>> 0c3203f5d687057dd5e44c81e617d1810bd77473
+
 ]
 
 if settings.DEBUG:
