@@ -48,10 +48,14 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+MEDIA_TYPE = (
+    ('V', 'Video'),
+    ('A', 'Audio'),
+)
 
 class Media(models.Model):
     idMedia = models.AutoField(primary_key=True)
-    mediaType = models.CharField(max_length=255)
+    mediaType = models.CharField(max_length=255, choices=MEDIA_TYPE, default='V')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     author = models.CharField(max_length=255)
@@ -69,3 +73,11 @@ class Media(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('details', args=[str(self.idMedia)])
+
+    def get_yt_code(self):
+        """Returns the ID code of a youtube video, """
+        # ex: https: // www.youtube.com / watch?v = wIaowvCQG1M, return wIaowvCQG1M
+        if "embed" not in self.url:
+            return self.url.split('?v=')[1]
+        else:
+            return self.url[self.url.find("embed/")+6:self.url.find("embed/")+17]
