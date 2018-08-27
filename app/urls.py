@@ -16,13 +16,18 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
-
 from app import settings
+from django.contrib.auth.views import login
+from gallery import views
+
 
 urlpatterns = [
-    url(r'^videos/', include('gallery.urls')),
+    url(r'^login/$', login,  {'template_name':'auth/login.html'}),
+    url(r'^login/accounts/auth/$', views.auth_view, name="auth_view"),
+    url(r'^videos/', include('gallery.urls'),name='videos_url'),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/gallery/', include('gallery.urls', namespace='gallery'))
+    url(r'^api/v1/gallery/', include('gallery.urls', namespace='gallery')),
+    url(r'^invalid/$',views.invalid_login,name='invalid'),
 ]
 
 if settings.DEBUG:
