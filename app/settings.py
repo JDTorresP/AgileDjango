@@ -83,27 +83,27 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
-DATABASES = {
-    #Local
-    #  'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME':'postgres',
-    #     'USER':'postgres',
-    #     'PASSWORD':'admin',
-    #     'HOST':'127.0.0.1',
-    #     'PORT':'5432',
-    # }
+# DATABASES = {
+#     #Local
+#     #  'default': {
+#     #     'ENGINE': 'django.db.backends.postgresql',
+#     #     'NAME':'postgres',
+#     #     'USER':'postgres',
+#     #     'PASSWORD':'admin',
+#     #     'HOST':'127.0.0.1',
+#     #     'PORT':'5432',
+#     # }
 #
 #     #Amazon
-
-    # 'default': {
-    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #    'NAME': 'd4eg5rsuf9ehh3',
-    #    'USER': 'qwkzxcnsoaqkgy',
-    #     'PASSWORD': '7863dc3566996195d0830dda52bc3e05522287701cdacdf02d3e3151a1029a7c',
-    #     'HOST': 'ec2-54-83-13-119.compute-1.amazonaws.com',
-    #     'PORT': '5432'
-    # }
+#
+#     # 'default': {
+#     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     #    'NAME': 'd4eg5rsuf9ehh3',
+#     #    'USER': 'qwkzxcnsoaqkgy',
+#     #     'PASSWORD': '7863dc3566996195d0830dda52bc3e05522287701cdacdf02d3e3151a1029a7c',
+#     #     'HOST': 'ec2-54-83-13-119.compute-1.amazonaws.com',
+#     #     'PORT': '5432'
+#     # }
 #
 #
 #     # 'default': {
@@ -115,7 +115,7 @@ DATABASES = {
 #     #     'PORT': '',
 #     # }
 #
-}
+# }
 
 
 # Password validation

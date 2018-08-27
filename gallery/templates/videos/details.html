@@ -12,7 +12,7 @@
 <body>
 
 <div class="container">
-{{ video.url|safe }}
+<iframe  width="560" height="315" src="https://www.youtube.com/embed/{{ video.get_yt_code }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <h2 >Detalles</h2>
         <table class="table">
             <tbody>
