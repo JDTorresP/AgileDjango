@@ -10,6 +10,17 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.template.context_processors import csrf
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+
+from django.core.urlresolvers import reverse
+from django.shortcuts import render, redirect
+
+from .models import Media, ClipForm, UserForm
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.core import serializers as jsonserializer
+
 
 def index(request):
     video_list = Media.objects.all()
@@ -72,3 +83,56 @@ def all_users(request):
     all_users_objects = User.objects.all()
 
     return HttpResponse(jsonserializer.serialize("json", all_users_objects))
+
+
+def add_user_view(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            username = form.get('username')
+            first_name = cleaned_data.get('first_name')
+            last_name = cleaned_data.get('last_name')
+            password = cleaned_data.get('password')
+            email = cleaned_data.get('email')
+
+            user_model = User.objects.create_user(username=username, password=password)
+            user_model.first_name = first_name
+            user_model.last_name = last_name
+            user_model.email = email
+            user_model.save()
+
+        return HttpResponseRedirect(reverse('gallery:index'))
+
+    else:
+        form = UserForm()
+
+    context ={
+        'form': form
+    }
+
+    return render(request, 'auth/registro.html', context)
+
+
+def login_view(request):
+
+    if request.user.is_authenticated():
+        return redirect(reverse('gallery:index'))
+
+    mensaje = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('gallery:index'))
+        else:
+            mensaje = "Nombre de usuario o clave no valido"
+
+    return render(request, 'auth/login.html', {'mensaje': mensaje})
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('gallery:index'))

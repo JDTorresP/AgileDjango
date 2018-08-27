@@ -22,13 +22,9 @@ from gallery import views
 
 
 urlpatterns = [
-    url(r'^login/$', login,  {'template_name':'auth/login.html'}),
-    url(r'^login/accounts/auth/$', views.auth_view, name="auth_view"),
-    url(r'^videos/', include('gallery.urls'),name='videos_url'),
+    url(r'^videos/', include('gallery.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/gallery/', include('gallery.urls', namespace='gallery')),
-    url(r'^invalid/$',views.invalid_login,name='invalid'),
-
+    url(r'^', include('gallery.urls', namespace='gallery')),
 ]
 
 if settings.DEBUG:
