@@ -1,4 +1,6 @@
+
 {# Load the tag library #}
+
 {% load bootstrap3 %}
 
 {# Load CSS and JavaScript #}
@@ -47,8 +49,12 @@
 <h1 align="center">Galería de Videos</h1>
 <br></br>
 {%for video in video_list %}
-{{ video.url|safe }}
-    <a href="{{ video.get_absolute_url }}" >Detalles</a>
+
+    <div style="width: 560px">
+    <iframe  width="560" height="315" src="https://www.youtube.com/embed/{{ video.get_yt_code }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <a style="display: block" class="btn btn-primary" href="{{ video.get_absolute_url }}" >Detalles</a>
+    </div>
+
 {% endfor %}
 </body>
 </html>
