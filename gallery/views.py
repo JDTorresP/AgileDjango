@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Media, ClipForm, UserForm
+from .models import Media, ClipForm, UserForm, EditUserForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from django.shortcuts import render_to_response
@@ -100,11 +101,47 @@ def add_user_view(request):
     else:
         form = UserForm()
 
-    context ={
+    context = {
         'form': form
     }
 
     return render(request, 'auth/registro.html', context)
+
+
+def mod_user_view(request):
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect(reverse('gallery:index'))
+
+    else:
+        print('else?')
+        user = User.objects.get(username=request.user.username)
+        form = EditUserForm(instance=user)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'auth/modUser.html', context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, user=form.user)
+            return HttpResponseRedirect(reverse('gallery:index'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'auth/changePassword.html', context)
 
 
 def login_view(request):

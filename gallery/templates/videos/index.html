@@ -36,7 +36,7 @@
 			<ul class="nav navbar-nav"></ul>
 			<ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-					<li> <a class="glyphicon glyphicon-user" href="{% url 'gallery:index' %}"> {{ user.username }}</a></li>
+					<li> <a class="glyphicon glyphicon-user" href="{% url 'gallery:modUser' %}"> {{ user.username }}</a></li>
 					<li> <a class="glyphicon glyphicon-log-out" href="{% url 'gallery:logout' %}"> Logout</a></li>
 				{% else %}
 					<li> <a href="{% url 'gallery:addUser' %}"> Registro</a></li>

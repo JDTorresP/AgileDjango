@@ -45,6 +45,23 @@ class UserForm(ModelForm):
         return self.name
 
 
+class EditUserForm(ModelForm):
+    username = forms.CharField(max_length=50, disabled=True)
+    first_name = forms.CharField(max_length=20)
+    last_name = forms.CharField(max_length=20)
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not User.objects.filter(username=username):
+            raise forms.ValidationError('Nombre de usuario no existe.')
+        return username
+
+
 class Category(models.Model):
     idCategory = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
@@ -71,10 +88,12 @@ class Clip_Media(models.Model):
     media = models.ForeignKey('Media')
     user = models.ForeignKey(User)
 
+
 MEDIA_TYPE = (
     ('V', 'Video'),
     ('A', 'Audio'),
 )
+
 
 class Media(models.Model):
     idMedia = models.AutoField(primary_key=True)
