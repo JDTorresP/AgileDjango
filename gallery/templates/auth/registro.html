@@ -15,11 +15,19 @@
 <div class="row">
     <div class="col-md-6 col-sm-offset-3">
         <div class="page-header">
-            <h2>Sign up</h2>
+            <h2>Registrar</h2>
         </div>
-        <form method="post" action ="">
+        <form method="post" action ="" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_field form.usuario %}
+        {% bootstrap_field form.nombre %}
+        {% bootstrap_field form.apellido %}
+        {% bootstrap_field form.email %}
+        {% bootstrap_field form.contrasena %}
+        {% bootstrap_field form.contrasena2 %}
+        {% bootstrap_field form.pais %}
+        {% bootstrap_field form.ciudad %}
+        {% bootstrap_field form.imagen %}
         {% buttons %}
         <input type="submit" value="Registrar" class="btn btn-primary"/>
         <a href="{% url 'gallery:index' %}" class="btn btn-primary">Cancelar</a>
