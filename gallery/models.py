@@ -13,24 +13,24 @@ from django.utils.datetime_safe import datetime
 class CustomUser(models.Model):
     pais = models.CharField(max_length=150, blank=True)
     ciudad = models.CharField(max_length=150, blank=True)
-    picture = models.ImageField(upload_to="pictures", blank=True)
+    imagen = models.ImageField(upload_to="pictures", blank=True)
     auth_user_id = models.ForeignKey(User, null=False)
 
 
 class UserForm(ModelForm):
-    username = forms.CharField(max_length=50)
-    first_name = forms.CharField(max_length=20)
-    last_name = forms.CharField(max_length=20)
+    usuario = forms.CharField(max_length=50)
+    nombre = forms.CharField(max_length=20)
+    apellido = forms.CharField(max_length=20)
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput())
-    password2 = forms.CharField(widget=forms.PasswordInput())
+    contrasena = forms.CharField(widget=forms.PasswordInput())
+    contrasena2 = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = CustomUser
-        fields = ['pais', 'ciudad', 'picture']
+        fields = ['pais', 'ciudad', 'imagen']
 
     def clean_username(self):
-        username = self.cleaned_data['username']
+        username = self.cleaned_data['usuario']
         if User.objects.filter(username=username):
             raise forms.ValidationError('Nombre de usuario ya registrado.')
         return username
@@ -42,8 +42,8 @@ class UserForm(ModelForm):
         return email
 
     def clean_password2(self):
-        password = self.cleaned_data['password']
-        password2 = self.cleaned_data['password2']
+        password = self.cleaned_data['contrasena']
+        password2 = self.cleaned_data['contrasena']
         if password != password2:
             raise forms.ValidationError('Las claves no coinciden')
         return password2
