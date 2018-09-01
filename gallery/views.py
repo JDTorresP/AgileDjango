@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+
 from .models import Media, ClipForm, UserForm, EditUserForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
@@ -81,7 +82,7 @@ def all_users(request):
 
 def add_user_view(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
@@ -94,6 +95,7 @@ def add_user_view(request):
             user_model.first_name = first_name
             user_model.last_name = last_name
             user_model.email = email
+
             user_model.save()
 
             return HttpResponseRedirect(reverse('gallery:index'))
@@ -110,7 +112,7 @@ def add_user_view(request):
 
 def mod_user_view(request):
     if request.method == 'POST':
-        form = EditUserForm(request.POST, instance=request.user)
+        form = EditUserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
 
