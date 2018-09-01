@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^details/(?P<videoid>\d+)$', views.detail, name="details"),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
 

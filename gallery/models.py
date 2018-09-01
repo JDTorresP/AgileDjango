@@ -10,6 +10,13 @@ from django import forms
 from django.utils.datetime_safe import datetime
 
 
+class CustomUser(models.Model):
+    pais = models.CharField(max_length=150, blank=True)
+    ciudad = models.CharField(max_length=150, blank=True)
+    picture = models.ImageField(upload_to="pictures", blank=True)
+    auth_user_id = models.ForeignKey(User, null=False)
+
+
 class UserForm(ModelForm):
     username = forms.CharField(max_length=50)
     first_name = forms.CharField(max_length=20)
@@ -19,8 +26,8 @@ class UserForm(ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password2']
+        model = CustomUser
+        fields = ['pais', 'ciudad', 'picture']
 
     def clean_username(self):
         username = self.cleaned_data['username']
