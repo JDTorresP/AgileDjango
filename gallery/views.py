@@ -85,7 +85,7 @@ def add_user_view(request):
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             cleaned_data = form.cleaned_data
-            username = cleaned_data.get('username')
+            username = cleaned_data.get('usuario')
             first_name = cleaned_data.get('first_name')
             last_name = cleaned_data.get('last_name')
             password = cleaned_data.get('password')
