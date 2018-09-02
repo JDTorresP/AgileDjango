@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser
+from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from django.shortcuts import render_to_response
@@ -19,7 +19,14 @@ from django.core import serializers as jsonserializer
 
 def index(request):
     video_list = Media.objects.all()
-    context = {'video_list': video_list}
+    selected_category = 0
+    categoria_list = Category.objects.all().order_by('name')
+    if request.method == 'POST':
+        selected_category = int(request.POST.get("idSelCategorias"))
+        if selected_category != 0:
+            video_list = Media.objects.filter(category=selected_category)
+
+    context = {'video_list': video_list, 'categoria_list': categoria_list, 'selected_category': selected_category}
     return render(request, 'videos/index.html', context)
 
 
@@ -152,7 +159,6 @@ def change_password(request):
 
 
 def login_view(request):
-
     if request.user.is_authenticated():
         return redirect(reverse('gallery:index'))
 
