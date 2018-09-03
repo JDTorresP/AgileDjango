@@ -140,8 +140,12 @@ class Media(models.Model):
         # this is specific to youtube, for other services please implement that
         # in their own function.
         # ex: https: // www.youtube.com / watch?v = wIaowvCQG1M, return wIaowvCQG1M
+        yt='https://youtube.com/embed/'
         if "embed" not in self.url:
-            return self.url.split('?v=')[1]
+            return yt+self.url.split('?v=')[1]
         else:
-            return self.url[self.url.find("embed/")+6:self.url.find("embed/")+17]
+            return yt+self.url[self.url.find("embed/")+6:self.url.find("embed/")+17]
 
+
+    def soundCloud(self):
+        return  self.url

@@ -90,9 +90,16 @@
 
                 <div style="width: 560px;display: inline-block;">
 
-                    <iframe width="560" height="315" src="https://youtube.com/embed/{{ video.get_yt_code }}"
+                    {% if 'youtube' in  video.soundCloud %}
+                        <iframe width="560" height="315" src="{{ video.get_yt_code }}"
                             scrolling="no" frameborder="no"
                             allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        {% else %}
+                        <iframe width="560" height="315" src="{{ video.soundCloud }}"
+                            scrolling="no" frameborder="no"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    {% endif %}
+
                     <div class="caption">
                         <h3>{{ video.title }}</h3>
                         <h4>Autor: {{ video.author }}</h4>
