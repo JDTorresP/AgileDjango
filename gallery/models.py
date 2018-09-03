@@ -52,6 +52,17 @@ class UserForm(ModelForm):
         return self.name
 
 
+class EditCustomUserForm(ModelForm):
+    pais = models.CharField(max_length=150, blank=True)
+    ciudad = models.CharField(max_length=150, blank=True)
+    imagen = models.ImageField(upload_to="pictures", blank=True)
+    auth_user_id = models.ForeignKey(User, null=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['pais', 'ciudad', 'imagen']
+
+
 class EditUserForm(ModelForm):
     username = forms.CharField(max_length=50, disabled=True)
     first_name = forms.CharField(max_length=20)
