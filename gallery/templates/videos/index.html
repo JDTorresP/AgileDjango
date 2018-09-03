@@ -64,9 +64,21 @@
             <option value="0" {% if selected_category == 0 %}selected{% endif %}>Categorias</option>
             {% for categoria in categoria_list %}
                 <option value="{{ categoria.idCategory }}"
-                        {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}</option>
+                        {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}{{ categoria.idCategory }}</option>
             {% endfor %}
         </select>
+        <div id ='idSelTipo' value=0></div>
+    </form>
+
+    <form name="form" method="post">
+            {% csrf_token %}
+            <select class="custom-select" onchange="form.submit()" id="idSelTipo" name="idSelTipo">
+                <option value="0" {% if selected_type == 0 %}selected{% endif %}>Todos</option>
+                {% for type in type_list %}
+                    <option value="{{ type.idType }}"
+                            {% if type.idType == selected_type %}selected{% endif %}>{{ type.name }}</option>
+                {% endfor %}
+            </select>
     </form>
 </div>
 <br>
@@ -77,8 +89,9 @@
             <div class="thumbnail">
 
                 <div style="width: 560px;display: inline-block;">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.get_yt_code }}"
-                            frameborder="0"
+
+                    <iframe width="560" height="315" src="{{ video.get_yt_code }}"
+                            scrolling="no" frameborder="no"
                             allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     <div class="caption">
                         <h3>{{ video.title }}</h3>

@@ -20,13 +20,24 @@ from django.core import serializers as jsonserializer
 def index(request):
     video_list = Media.objects.all()
     selected_category = 0
+    selected_type = 0
     categoria_list = Category.objects.all().order_by('name')
+    type_list = [{'idType':'1','name':'Videos'},{'idType':'2','name':'Audios'}]
+
     if request.method == 'POST':
-        selected_category = int(request.POST.get("idSelCategorias"))
+        selected_category = int(request.POST.get("idSelCategorias",0))
+        arg = request.POST.get("idSelTipo",0)
+        selected_type =int(arg)
         if selected_category != 0:
             video_list = Media.objects.filter(category=selected_category)
+        if selected_type != 0:
+            if selected_type==1:
+                video_list = Media.objects.filter(mediaType='V')
+            else:
+                if selected_type==2:
+                    video_list = Media.objects.filter(mediaType='A')
 
-    context = {'video_list': video_list, 'categoria_list': categoria_list, 'selected_category': selected_category}
+    context = {'video_list': video_list, 'categoria_list': categoria_list, 'selected_category': selected_category, 'selected_type':selected_type,'type_list':type_list}
     return render(request, 'videos/index.html', context)
 
 
