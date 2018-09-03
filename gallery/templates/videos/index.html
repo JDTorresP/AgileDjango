@@ -64,7 +64,7 @@
             <option value="0" {% if selected_category == 0 %}selected{% endif %}>Categorias</option>
             {% for categoria in categoria_list %}
                 <option value="{{ categoria.idCategory }}"
-                        {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}{{ categoria.idCategory }}</option>
+                        {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}</option>
             {% endfor %}
         </select>
         <div id ='idSelTipo' value=0></div>
