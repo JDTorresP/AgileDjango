@@ -20,6 +20,7 @@ virtualenv -p C:\Python27\python.exe env
 * pip install psycopg2
 * pip install whitenoise
 * pip install gunicorn
+* pip install Pillow
 * cd ../..
 * python manage.py runserver
 
