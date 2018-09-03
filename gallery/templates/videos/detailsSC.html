@@ -94,7 +94,7 @@
             </tbody>
         </table>
     <h2 >Agregar clips</h2>
-    <form action="{{ video.get_absolute_url }}" enctype="multipart/form-data" method="post">
+    <form action="{{ video.get_absolute_SC_url }}" enctype="multipart/form-data" method="post">
         {%csrf_token%}
         {% bootstrap_form form %}
         {% buttons %}
