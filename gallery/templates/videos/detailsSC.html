@@ -10,9 +10,8 @@
     <title>Detalles</title>
 </head>
 <body>
-<script>
+<script type="text/javascript" src="https://w.soundcloud.com/player/api.js"></script>
 
-</script>
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -51,7 +50,9 @@
 </nav>
 
 <div class="container" style="margin-top: 70px">
-<div id="player"></div>
+<iframe class="scPlayer" width="560" height="315" src="{{ video.soundCloud }}"
+                            scrolling="no" frameborder="no"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <h2 >Detalles</h2>
         <table class="table">
             <tbody>
@@ -102,6 +103,25 @@
         {% endbuttons %}
     </form>
 </div>
+
+<script>
+    var iframe = document.querySelector('.scPlayer');
+    var widget = SC.Widget(iframe);
+
+    var clipTimer;
+
+    function playClip(startTime, endTime){
+        widget.play();
+        clearTimeout(clipTimer);
+        widget.seekTo(startTime*1000);
+        clipTimer = setTimeout(pauseAudio, (endTime-starTime)*1000);
+    }
+
+    function pauseAudio(){
+        widget.pause();
+    }
+
+</script>
 
 </body>
 </html>
