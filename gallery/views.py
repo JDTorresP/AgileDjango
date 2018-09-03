@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category
+from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category, EditCustomUserForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from django.shortcuts import render_to_response
@@ -136,18 +136,26 @@ def add_user_view(request):
 def mod_user_view(request):
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        user = User.objects.get(username=request.user.username)
+        customuser = CustomUser.objects.filter(auth_user_id=user).first()
+        customform = EditCustomUserForm(request.POST, request.FILES, instance=customuser)
 
-            return HttpResponseRedirect(reverse('gallery:index'))
+        if form.is_valid():
+            if customform.is_valid():
+                form.save()
+                customform.save()
+                return HttpResponseRedirect(reverse('gallery:index'))
 
     else:
-        print('else?')
         user = User.objects.get(username=request.user.username)
+        print('username ' + user.username)
         form = EditUserForm(instance=user)
+        customuser = CustomUser.objects.filter(auth_user_id=user).first()
+        customform = EditCustomUserForm(instance=customuser)
 
     context = {
-        'form': form
+        'form': form,
+        'customform': customform
     }
 
     return render(request, 'auth/modUser.html', context)
