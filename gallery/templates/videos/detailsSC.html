@@ -114,7 +114,7 @@
         widget.play();
         clearTimeout(clipTimer);
         widget.seekTo(startTime*1000);
-        clipTimer = setTimeout(pauseAudio, (endTime-starTime)*1000);
+        clipTimer = setTimeout(pauseAudio, (endTime-startTime)*1000);
     }
 
     function pauseAudio(){
