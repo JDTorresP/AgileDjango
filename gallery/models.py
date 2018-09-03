@@ -134,6 +134,9 @@ class Media(models.Model):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('details', args=[str(self.idMedia)])
 
+    def get_absolute_SC_url(self):
+        return reverse('detailsSC', args=[str(self.idMedia)])
+
 
     def get_yt_code(self):
         """Returns the ID code of a youtube video, """

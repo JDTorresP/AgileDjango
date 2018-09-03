@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^modUser/$', views.mod_user_view, name='modUser'),
     url(r'^changePassword/$', views.change_password, name='changePassword'),
     url(r'^details/(?P<videoid>\d+)$', views.detail, name="details"),
+    url(r'^detailsSC/(?P<videoid>\d+)$', views.detailSC, name="detailsSC"),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^i18n/', include('django.conf.urls.i18n')),

@@ -104,7 +104,10 @@
                         <h3>{{ video.title }}</h3>
                         <h4>Autor: {{ video.author }}</h4>
                         <a style="display: block" class="btn btn-primary"
-                           href="{{ video.get_absolute_url }}">Detalles</a>
+                           {% if 'youtube' in  video.soundCloud %} href="{{ video.get_absolute_url }}" {% else %}
+                           href="{{ video.get_absolute_SC_url }}"
+                           {% endif %}
+                           >Detalles</a>
                     </div>
                 </div>
             </div>

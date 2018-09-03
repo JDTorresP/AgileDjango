@@ -92,6 +92,22 @@ def detail(request, videoid):
         context = {'video': current_video, 'form': form}
         return render(request, 'videos/details.html', context)
 
+def detailSC(request, videoid):
+    if request.method == 'POST':
+        form = ClipForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated():
+                clip = form.save()
+                video = Media.objects.get(pk=videoid)
+                current_user = request.user
+                media_clip = Clip_Media(clip= clip, media=video, user=current_user)
+                media_clip.save()
+        return HttpResponseRedirect(reverse('gallery:detailsSC', args=videoid))
+    else:
+        form = ClipForm()
+        current_video = Media.objects.get(pk=videoid)
+        context = {'video': current_video, 'form': form}
+        return render(request, 'videos/detailsSC.html', context)
 
 def all_media(request):
     all_media_objects = Media.objects.all()
