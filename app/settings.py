@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
-#DATABASES = {
+# DATABASES = {
 #     #Local
 #     #  'default': {
 #     #     'ENGINE': 'django.db.backends.mysql',
@@ -97,14 +97,14 @@ DATABASES = {'default': dj_database_url.config()}
 #
 #     #Amazon
 #
-    # 'default': {
-    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #    'NAME': 'deaa9kmj07elqa',
-    #    'USER': 'mrlblricespfbq',
-    #     'PASSWORD': '609e760f7affa782f4a01163e7c16406941fcc9eb381d428441f18b0c86524e8',
-    #     'HOST': 'ec2-54-235-160-57.compute-1.amazonaws.com',
-    #     'PORT': '5432'
-    # }
+#     # 'default': {
+#     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     #    'NAME': 'deaa9kmj07elqa',
+#     #    'USER': 'mrlblricespfbq',
+#     #     'PASSWORD': '609e760f7affa782f4a01163e7c16406941fcc9eb381d428441f18b0c86524e8',
+#     #     'HOST': 'ec2-54-235-160-57.compute-1.amazonaws.com',
+#     #     'PORT': '5432'
+#     # }
 #
 #
 #     # 'default': {
@@ -116,7 +116,7 @@ DATABASES = {'default': dj_database_url.config()}
 #     #     'PORT': '',
 #     # }
 #
- #}
+#  }
 
 
 # Password validation

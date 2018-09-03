@@ -126,13 +126,11 @@ class Media(models.Model):
 
     def get_yt_code(self):
         """Returns the ID code of a youtube video, """
+        # this is specific to youtube, for other services please implement that
+        # in their own function.
         # ex: https: // www.youtube.com / watch?v = wIaowvCQG1M, return wIaowvCQG1M
-        youtube ='https://www.youtube.com/embed/'
-        if self.mediaType == 'A':
-            return self.url
+        if "embed" not in self.url:
+            return self.url.split('?v=')[1]
         else:
-            if "embed" not in self.url:
-                return youtube+self.url.split('?v=')[1]
-            else:
-                return youtube+self.url[self.url.find("embed/")+6:self.url.find("embed/")+17]
+            return self.url[self.url.find("embed/")+6:self.url.find("embed/")+17]
 

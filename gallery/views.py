@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category
+from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category, Clip_Media
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from django.shortcuts import render_to_response
@@ -74,16 +74,21 @@ def auth_view(request):
 #
 
 def detail(request, videoid):
-    # if request.method == 'POST':
-    #     form = ClipForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         return
-    # else:
-    form = ClipForm()
-    current_video = Media.objects.get(pk=videoid)
-    context = {'video': current_video, 'form': form}
-    return render(request, 'videos/details.html', context)
+    if request.method == 'POST':
+        form = ClipForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated():
+                clip = form.save()
+                video = Media.objects.get(pk=videoid)
+                current_user = request.user
+                media_clip = Clip_Media(clip= clip, media=video, user=current_user)
+                media_clip.save()
+        return HttpResponseRedirect(reverse('gallery:details', args=videoid))
+    else:
+        form = ClipForm()
+        current_video = Media.objects.get(pk=videoid)
+        context = {'video': current_video, 'form': form}
+        return render(request, 'videos/details.html', context)
 
 
 def all_media(request):
