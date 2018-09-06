@@ -28,7 +28,7 @@ SECRET_KEY = '5v-c^r%fpfx4xgr!===#s^0sr4qmcyf=w!2(b-mofd%6fsph5)'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'djangosms.herokuapp.com','127.0.0.1', 'radiant-badlands-50472.herokuapp.com',
+    'djangosms.herokuapp.com','127.0.0.1', 'radiant-badlands-50472.herokuapp.com','localhost',
 ]
 
 
@@ -84,16 +84,16 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
-# DATABASES = {
+DATABASES = {
 #     #Local
-#     #  'default': {
-#     #     'ENGINE': 'django.db.backends.mysql',
-#     #     'NAME':'gallery',
-#     #     'USER':'root',
-#     #     'PASSWORD':'root',
-#     #     'HOST':'127.0.0.1',
-#     #     'PORT':'3306',
-#     # }
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'gallery',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 #
 #     #Amazon
 #
@@ -116,7 +116,7 @@ DATABASES = {'default': dj_database_url.config()}
 #     #     'PORT': '',
 #     # }
 #
-#  }
+ }
 
 
 # Password validation

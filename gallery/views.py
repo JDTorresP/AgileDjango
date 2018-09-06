@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+import json
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
@@ -16,7 +18,7 @@ from django.shortcuts import render_to_response
 from django.contrib import auth
 from django.template.context_processors import csrf
 
-from django.core import serializers as jsonserializer
+from django.core import serializers as jsonserializer, serializers
 
 
 def index(request):
@@ -92,6 +94,7 @@ def detail(request, videoid):
         context = {'video': current_video, 'form': form}
         return render(request, 'videos/details.html', context)
 
+
 def detailSC(request, videoid):
     if request.method == 'POST':
         form = ClipForm(request.POST)
@@ -109,6 +112,7 @@ def detailSC(request, videoid):
         context = {'video': current_video, 'form': form}
         return render(request, 'videos/detailsSC.html', context)
 
+
 def all_media(request):
     all_media_objects = Media.objects.all()
 
@@ -121,39 +125,29 @@ def all_users(request):
     return HttpResponse(jsonserializer.serialize("json", all_users_objects))
 
 
+@csrf_exempt
 def add_user_view(request):
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            username = cleaned_data.get('usuario')
-            first_name = cleaned_data.get('nombre')
-            last_name = cleaned_data.get('apellido')
-            password = cleaned_data.get('contrasena')
-            email = cleaned_data.get('email')
+        juser = json.loads(request.body)
+        username = juser['username']
+        first_name = juser['first_name']
+        last_name = juser['last_name']
+        password = juser['password']
+        email = juser['email']
 
-            user_model = User.objects.create_user(username=username, password=password)
-            user_model.first_name = first_name
-            user_model.last_name = last_name
-            user_model.email = email
+        user_model = User.objects.create_user(username=username, password=password)
+        user_model.first_name = first_name
+        user_model.last_name = last_name
+        user_model.email = email
 
-            user_app = CustomUser(pais=cleaned_data.get('pais'),
-                                  ciudad=cleaned_data.get('ciudad'),
-                                  imagen=cleaned_data.get('imagen'),
-                                  auth_user_id=user_model)
+        user_app = CustomUser(pais=juser['custom']['country'],
+                              ciudad=juser['custom']['city'],
+                              imagen=juser['custom']['image'],
+                              auth_user_id=user_model)
 
-            user_model.save()
-            user_app.save()
-            return HttpResponseRedirect(reverse('gallery:index'))
-
-    else:
-        form = UserForm()
-
-    context = {
-        'form': form
-    }
-
-    return render(request, 'auth/registro.html', context)
+        user_model.save()
+        user_app.save()
+    return HttpResponse(serializers.serialize('json', [user_model]))
 
 
 def mod_user_view(request):
@@ -184,6 +178,16 @@ def mod_user_view(request):
     return render(request, 'auth/modUser.html', context)
 
 
+def get_user_view(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"username": request.user.username,
+                             "first_name": request.user.first_name,
+                             "last_name": request.user.last_name,
+                             "email": request.user.email})
+    else:
+        return JsonResponse({"username": ''})
+
+
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
@@ -200,24 +204,43 @@ def change_password(request):
     return render(request, 'auth/changePassword.html', context)
 
 
+@csrf_exempt
 def login_view(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('gallery:index'))
-
-    mensaje = ''
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        juser = json.loads(request.body)
+        username = juser['username']
+        password = juser['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('gallery:index'))
+            mensaje = "ok"
         else:
             mensaje = "Nombre de usuario o clave no valido"
 
-    return render(request, 'auth/login.html', {'mensaje': mensaje})
+    return JsonResponse({"mensaje": mensaje})
 
 
+@csrf_exempt
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('gallery:index'))
+    return JsonResponse({"mensaje": 'ok'})
+
+
+@csrf_exempt
+def is_logged_view(request):
+    if request.user.is_authenticated:
+        mensaje = 'ok'
+    else:
+        mensaje = 'no'
+
+    return JsonResponse({"mensaje": mensaje})
+
+
+@csrf_exempt
+def ingresar(request):
+    return render(request, "auth/login.html")
+
+
+@csrf_exempt
+def agregar_usuario(request):
+    return render(request, "auth/registro.html")
