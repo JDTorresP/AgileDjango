@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category, EditCustomUserForm, Clip_Media
+from .models import Media, ClipForm, UserForm, EditUserForm, CustomUser, Category, EditCustomUserForm, Clip_Media, Clip
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
@@ -85,6 +86,7 @@ def detail(request, videoid):
                 current_user = request.user
                 media_clip = Clip_Media(clip= clip, media=video, user=current_user)
                 media_clip.save()
+                mailSender(media_clip.clip.idClip)
         return HttpResponseRedirect(reverse('gallery:details', args=videoid))
     else:
         form = ClipForm()
@@ -205,3 +207,18 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('gallery:index'))
+
+
+def mailSender(idClip):
+    clip = Clip.objects.get(pk=idClip)
+    clipmedia = Clip_Media.objects.get(clip=clip)
+    media = Media.objects.get(pk=clipmedia.media.idMedia)
+    send_mail(
+        'Clip agregado a su video/audio',
+        'Se informa que un nuevo clip ha sido agregado\n \n' +
+        'Detalles\n' + 'Título del clip: ' + clip.name + '\n' + 'Video: ' + media.title + '\n\n'
+        + 'Acceda a la página para poder ver el clip añadido',
+        'procesosagiles201820@gmail.com',
+        [media.user.email],
+        fail_silently=False,
+    )

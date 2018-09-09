@@ -166,3 +166,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #LOGIN_REDIRECT_URL = reverse_lazy('videos')
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'username'
+# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_USE_TLS = True
+
+EMAIL_HOST = os.environ.get('smtp_host')
+EMAIL_PORT = int(os.environ.get('smtp_port'))
+EMAIL_HOST_USER = os.environ.get('smtp_user')
+EMAIL_HOST_PASSWORD = os.environ.get('smtp_password')
+EMAIL_USE_TLS = os.environ.get('smtp_use_tls')
