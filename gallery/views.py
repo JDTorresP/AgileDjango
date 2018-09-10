@@ -91,9 +91,12 @@ def detail(request, videoid):
                 mail_sender(clip.idClip)
         return HttpResponseRedirect(reverse('gallery:details', args=videoid))
     else:
+        auth = 0
+        if request.user.is_authenticated():
+            auth = 1
         form = ClipForm()
         current_video = Media.objects.get(pk=videoid)
-        context = {'video': current_video, 'form': form}
+        context = {'video': current_video, 'form': form, 'auth':auth}
         return render(request, 'videos/details.html', context)
 
 
@@ -120,6 +123,10 @@ def all_media(request):
 
     return HttpResponse(jsonserializer.serialize("json", all_media_objects))
 
+@csrf_exempt
+def media_detail(request, videoid):
+    video = Media.objects.filter(pk=videoid)
+    return HttpResponse(jsonserializer.serialize("json", video))
 
 def all_users(request):
     all_users_objects = User.objects.all()
@@ -218,8 +225,8 @@ def login_view(request):
             mensaje = "ok"
         else:
             mensaje = "Nombre de usuario o clave no valido"
-
     return JsonResponse({"mensaje": mensaje})
+
 
 
 @csrf_exempt
@@ -234,7 +241,6 @@ def is_logged_view(request):
         mensaje = 'ok'
     else:
         mensaje = 'no'
-
     return JsonResponse({"mensaje": mensaje})
 
 

@@ -5,6 +5,7 @@ from django.contrib.auth.views import login
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^media/$', views.all_media, name="All media"),
+    url(r'^media/(?P<videoid>\d+)$', views.media_detail, name="media detail"),
     url(r'^users/$', views.all_users, name="All users"),
     url(r'^addUser/$', views.add_user_view, name='addUser'),
     url(r'^getUser/$', views.get_user_view, name='getUser'),

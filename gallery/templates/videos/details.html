@@ -137,7 +137,11 @@
         {%csrf_token%}
         {% bootstrap_form form %}
         {% buttons %}
-        <input type="submit" value="añadir" class="btn btn-primary btn-block"/>
+        {%if  auth == 1 %}
+            <input type="submit" value="añadir" class="btn btn-primary btn-block"/>
+            {% else %}
+            <p>no tiene permisos para agregar</p>
+        {%endif%}
         {% endbuttons %}
     </form>
 </div>
