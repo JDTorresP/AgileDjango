@@ -13,26 +13,34 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'admin/video/style.css' %}"/>
+
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <!-- jQuery-ui library -->
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/video/jquery-ui/jquery-ui.css' %}">
+    <script type="text/javascript" src="{% static 'admin/video/jquery-ui/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/video/main.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/video/style.css' %}"/>
+
+
     <script>
-        (function ()
-        {
-            $.getJSON("http://localhost:8000/isLogged").done(function (data)
-            {
-                if(data.mensaje == "no")
-                {
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).removeData('bs.modal');
+        });
+
+        (function () {
+            $.getJSON("http://localhost:8000/isLogged").done(function (data) {
+                if (data.mensaje == "no") {
                     $("#mod_user").hide()
                     $("#add_user").show()
                     $("#logout").hide()
                     $("#login").show()
                 }
-                else
-                {
-                    $.getJSON("http://localhost:8000/getUser").done(function (data)
-                        {
+                else {
+                    $.getJSON("http://localhost:8000/getUser").done(function (data) {
                             document.getElementById('mod_username').innerHTML = '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp; ' + data.username;
                         }
                     );
@@ -44,16 +52,12 @@
             });
         })();
 
-        function logout()
-        {
-            $.getJSON("http://localhost:8000/logout").done(function (data)
-            {
-                if(data.mensaje == "ok")
-                {
+        function logout() {
+            $.getJSON("http://localhost:8000/logout").done(function (data) {
+                if (data.mensaje == "ok") {
                     location.reload();
                 }
-                else
-                {
+                else {
                     alert("Ocurrió un error")
                 }
             });
@@ -86,72 +90,149 @@
             <ul class="nav navbar-nav"></ul>
             <ul class="nav navbar-nav navbar-right">
                 <li id="mod_user"><a id="mod_username" href="http://localhost:8000/modUser"></a></li>
-                <li id="add_user"><a href="http://localhost:8000/agregarUsuario"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp; Registro</a></li>
-                <li id="logout"><a id="click_logout" onclick="logout();" href="#"> <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout</a></li>
-                <li id="login"><a href="http://localhost:8000/ingresar"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Login</a></li>
+                <li id="add_user"><a id="btnSignup"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;
+                    Registro</a></li>
+                <li id="logout"><a id="click_logout" onclick="logout();" href="#"> <span class="glyphicon glyphicon-off"
+                                                                                         aria-hidden="true"></span>&nbsp;
+                    Logout</a></li>
+                <li id="login"><a id="btnLogin"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
+                    Login</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 <br>
-<div class="col-sm-12">
-    <form name="form" method="post">
-        {% csrf_token %}
-        <select class="custom-select" onchange="form.submit()" id="idSelCategorias" name="idSelCategorias">
-            <option value="0" {% if selected_category == 0 %}selected{% endif %}>Categorias</option>
-            {% for categoria in categoria_list %}
-                <option value="{{ categoria.idCategory }}"
-                        {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}</option>
-            {% endfor %}
-        </select>
-        <div id ='idSelTipo' value=0></div>
-    </form>
 
-    <form name="form" method="post">
-            {% csrf_token %}
-            <select class="custom-select" onchange="form.submit()" id="idSelTipo" name="idSelTipo">
-                <option value="0" {% if selected_type == 0 %}selected{% endif %}>Todos</option>
-                {% for type in type_list %}
-                    <option value="{{ type.idType }}"
-                            {% if type.idType == selected_type %}selected{% endif %}>{{ type.name }}</option>
-                {% endfor %}
-            </select>
-    </form>
-</div>
-<br>
-<div class="row">
-    {% for video in video_list %}
+<div class="container-fluid">
 
-        <div class="col-sm-4 col-lg-4">
-            <div class="thumbnail">
+    {% comment %}<div class="row">
+        <div class="col-lg-12">
+            <div class="myAlert-top alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Indicates a successful or positive action.
+            </div>
+        </div>
+    </div>{% endcomment %}
 
-                <div style="width: 560px;display: inline-block;">
+    <div class="row">
+        <div class="col-lg-3">
+            <form class="form-inline" method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <select onchange="form.submit()" id="idSelTipo" name="idSelTipo">
+                        <option value="0" {% if selected_type == 0 %}selected{% endif %}>Todos</option>
+                        {% for type in type_list %}
+                            <option value="{{ type.idType }}"
+                                    {% if type.idType == selected_type %}selected{% endif %}>{{ type.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select onchange="form.submit()" id="idSelCategorias" name="idSelCategorias">
+                        <option value="0" {% if selected_category == 0 %}selected{% endif %}>Categorias</option>
+                        {% for categoria in categoria_list %}
+                            <option value="{{ categoria.idCategory }}"
+                                    {% if categoria.idCategory == selected_category %}selected{% endif %}>{{ categoria.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-9">
+
+        </div>
+    </div>
+    <br>
+
+
+    <div class="row">
+        {% for video in video_list %}
+
+            <div class="col-sm-4 col-lg-4">
+                <div class="thumbnail">
 
                     {% if 'youtube' in  video.soundCloud %}
-                        <iframe width="560" height="315" src="{{ video.youTube }}"
-                            scrolling="no" frameborder="no"
-                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        {% else %}
-                        <iframe width="560" height="315" src="{{ video.soundCloud }}"
-                            scrolling="no" frameborder="no"
-                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ video.youTube }}"></iframe>
+                        </div>
+                    {% else %}
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{{ video.soundCloud }}"></iframe>
+                        </div>
                     {% endif %}
 
                     <div class="caption">
                         <h3>{{ video.title }}</h3>
                         <h4>Autor: {{ video.author }}</h4>
-                        <a style="display: block" class="btn btn-primary"
-                           {% if 'youtube' in  video.soundCloud %} href="{{ video.get_absolute_url }}" {% else %}
-                           href="{{ video.get_absolute_SC_url }}"
-                           {% endif %}
-                           >Detalles</a>
+                        {% if 'youtube' in  video.soundCloud %}
+                            <a style="display:block" class="btn btn-primary"
+                               onclick="return abrir_modal_bootstrap('{{ video.get_absolute_url }}', 'Video')">Detalle
+                                Video</a>
+                        {% else %}
+                            <a style="display: block" class="btn btn-primary"
+                               onclick="return abrir_modal_bootstrap('{{ video.get_absolute_SC_url }}','Audio')">Detalle
+                                Audio</a>
+                        {% endif %}
                     </div>
+
                 </div>
             </div>
-        </div>
+        {% endfor %}
 
-    {% endfor %}
+    </div>
+
+
 </div>
+
+<!-- Ventana Modal General -->
+
+<div id="form-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="CloseModalButton">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Modal title</h3>
+            </div>
+            <div id="form-modal-body" class="modal-body">
+
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+
+
+    $('#btnSignup').click(function () {
+        $("h3.modal-title").text("Registro de Usuarios")
+        $('#form-modal-body').load('/agregarUsuario/', function () {
+            $('#form-modal').modal('toggle');
+            formAjaxSubmit('#form-modal-body form', '#form-modal');
+        });
+    });
+
+    $('#btnLogin').click(function () {
+        $("h3.modal-title").text("Ingreso de Usuarios")
+        $('#form-modal-body').load('/ingresar/', function () {
+            $('#form-modal').modal('toggle');
+            formAjaxSubmit('#form-modal-body form', '#form-modal');
+        });
+    });
+
+
+    function abrir_modal_bootstrap(url, tipo) {
+        $("h3.modal-title").text("Detalles " + tipo)
+        $('#form-modal-body').load(url, function () {
+            $('#form-modal').modal('toggle');
+            formAjaxSubmit('#form-modal-body form', '#form-modal');
+        });
+
+
+    }
+</script>
 
 </body>
 </html>
