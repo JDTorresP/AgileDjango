@@ -84,39 +84,39 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
-DATABASES = {
-    #Local
-    #  'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'gallery',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'admin',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    # }
-
-    #Amazon
-
-    # 'default': {
-    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #    'NAME': 'deaa9kmj07elqa',
-    #    'USER': 'mrlblricespfbq',
-    #     'PASSWORD': '609e760f7affa782f4a01163e7c16406941fcc9eb381d428441f18b0c86524e8',
-    #     'HOST': 'ec2-54-235-160-57.compute-1.amazonaws.com',
-    #     'PORT': '5432'
-    # }
-
-
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'agile',
-        'USER': 'dbuser',
-        'PASSWORD': 'casa123',
-        'HOST': '',
-        'PORT': '',
-    }
-
- }
+# DATABASES = {
+#     #Local
+#     #  'default': {
+#     #     'ENGINE': 'django.db.backends.postgresql',
+#     #     'NAME': 'gallery',
+#     #     'USER': 'postgres',
+#     #     'PASSWORD': 'admin',
+#     #     'HOST': '127.0.0.1',
+#     #     'PORT': '5432',
+#     # }
+#
+#     #Amazon
+#
+#     # 'default': {
+#     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     #    'NAME': 'deaa9kmj07elqa',
+#     #    'USER': 'mrlblricespfbq',
+#     #     'PASSWORD': '609e760f7affa782f4a01163e7c16406941fcc9eb381d428441f18b0c86524e8',
+#     #     'HOST': 'ec2-54-235-160-57.compute-1.amazonaws.com',
+#     #     'PORT': '5432'
+#     # }
+#
+#
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     #     'NAME': 'agile',
+#     #     'USER': 'dbuser',
+#     #     'PASSWORD': 'casa123',
+#     #     'HOST': '',
+#     #     'PORT': '',
+#     # }
+#
+#  }
 
 
 # Password validation
@@ -167,14 +167,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #LOGIN_REDIRECT_URL = reverse_lazy('videos')
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'username'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'username'
+# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_USE_TLS = True
 
-# EMAIL_HOST = os.environ.get('smtp_host')
-# EMAIL_PORT = int(os.environ.get('smtp_port'))
-# EMAIL_HOST_USER = os.environ.get('smtp_user')
-# EMAIL_HOST_PASSWORD = os.environ.get('smtp_password')
-# EMAIL_USE_TLS = os.environ.get('smtp_use_tls')
+EMAIL_HOST = os.environ.get('smtp_host')
+EMAIL_PORT = int(os.environ.get('smtp_port'))
+EMAIL_HOST_USER = os.environ.get('smtp_user')
+EMAIL_HOST_PASSWORD = os.environ.get('smtp_password')
+EMAIL_USE_TLS = os.environ.get('smtp_use_tls')
